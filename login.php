@@ -20,6 +20,7 @@ if($e = curl_error($curl)){
     $decoded = json_decode($response);
     print_r($decoded);
 }
+curl_close($curl);
 
 
 /*$curl = curl_init();
