@@ -1,13 +1,158 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
+
+    <style>
+
+        .calendar {
+            /*float: left;*/
+            margin: auto;
+            margin-top: 1em;
+            min-width: 320px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+        }
+
+
+        .calendar, .calendar_weekdays,
+        .calendar_content {
+            max-width: 785px;
+        }
+
+        .calendar_weekdays div {
+            color: #aaa;
+            font-weight: lighter;
+            display:inline-block;
+            vertical-align:top;
+        }
+        .calendar_content, .calendar_weekdays, .calendar_header {
+            position: relative;
+        }
+        .calendar_content:after, .calendar_weekdays:after, .calendar_header:after {
+            content: ' ';
+            display: table;
+            clear: both;
+        }
+        .calendar_weekdays div, .calendar_content div {
+            width: 14.28571%;
+            height: 68px;
+            overflow: hidden;
+            text-align: center;
+            background-color: transparent;
+        }
+
+        .month_line{
+            line-height: 69px;
+        }
+
+        .calendar_weekdays_year div, .calendar_content_year div {
+            width: 14.28571%;
+            height: 25px;
+            overflow: hidden;
+            text-align: center;
+            background-color: transparent;
+            font-size: smaller !important;
+        }
+
+        .calendar_content .today {
+            color: #232f3e;
+            background-color: #dae1ea;
+        }
+        .calendar_content div {
+            float: left;
+            margin-left: -1px;
+            margin-top: -1px;
+            border: 1px solid #d5d5d5;
+        }
+
+        .calendar_content div.today{
+            font-weight: bold;
+            font-size: 20px;
+            color: #232f3e;
+        }
+
+        .calendar_header {
+            width: 100%;
+            text-align: center;
+        }
+
+        .calendar_header h2 {
+            float:left;
+            width:70%;
+            margin-top: 10px;
+            padding: 0 10px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+            font-size: 1.5em;
+            color: #232f3e;
+            line-height: 1.7;
+        }
+
+        .calendar_header_year h2{
+            float:left;
+            width: 100%;
+            margin-top: 10px;
+            padding: 0 10px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+            font-size: 1.5em;
+            color: #232f3e;
+            line-height: 1.7;
+        }
+
+        .switch-month {
+            background-color: white;
+            color: #232f3e;
+            padding: 0;
+            outline: none;
+            border: none;
+            line-height: 52px;
+            height: 55px;
+            float: left;
+            width:15%;
+            transition: color .2s;
+            border-radius: 10%;
+        }
+
+        .switch-month:hover {
+            color: #007bff;
+            background: #d3d3d357;
+        }
+        .switch-month:active {
+            background-color: rgba(113, 113, 125, .4);
+        }
+
+        div.tagBelegt{
+            background-color: #ff000070;
+            border-color: darkred;
+        }
+
+        div.pastBelegt{
+            background-color: lightyellow;
+        }
+
+        .calendar_content div.past-date {
+            cursor: initial;
+            color: #d5d5d5;
+        }
+
+        .calendar-year{
+            max-width: 1000px;
+        }
+
+        .calendar_header_year_ueberschrift:hover{
+            cursor: pointer;
+            color: #007bff;
+        }
+
+
+    </style>
+</head>
 <?php
 
-
-
-$id = $_GET['id'];
+$id = $_GET["id"];
 $curl = curl_init();
-
 $url = 'https://localhost/studpro/public/api/datum/' . $id;
 
 $data = array('email' => 'test@test.de','passwort' => '12345678');
@@ -28,66 +173,38 @@ if($e = curl_error($curl)){
     echo $e;
 }else{
     $decoded = json_decode($response);
-    //print_r($decoded);
 }
 curl_close($curl);
 
-//var_dump($decoded);
-//echo sizeof($decoded);
 
 $stack = array();
 
 foreach ($decoded as $item) {
-    //var_dump( $item);
     $array = json_decode(json_encode($item), true);
     array_push($stack, $array);
-    echo $array['datumvon'];
-    echo $array['datumbis'];
-    echo "<br>";
 }
 
-foreach ($stack as $item) {
-    var_dump($item);
-    echo "<br>";
-}?>
 
+?>
 
-
-
-
-
+<body>
     <div class="container">
         <div class="calendar-section">
 
             <div class="card bg-white mt-4">
-                <legend class="card-header  bg-white">
-                    <div class="d-flex justify-content-between">
-                        <div class="h5">
-                        </div></div></legend>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-2" style="text-align: right">
-                            <button type="submit" name="btnAbbrechen" id="btnAbbrechen" class="btn btn-primary mb-2 mr-2 "><i class="far fa-window-close"></i>  Zurück zur Liste</button>
-                        </div>
-
-                        <div class="col-lg-5 col-md-4 col-sm-3"></div>
+                        <div class="col-1" style="text-align: right"></div>
                         <button type="button" id="todayButtonYear" class="btn btn-success mb-2 mr-2 col-md-1 col-sm-2" style="display: none"><i class="fas fa-calendar-day"></i> Heute</button>
                         <button type="button" id="todayButton" class="btn btn-success mb-2 mr-2 col-md-1 col-sm-2"><i class="fas fa-calendar-day"></i> Heute</button>
-                        <!--<div class="btn-group btn-group-toggle mb-2 mr-2 col-md-2 col-sm-3" data-toggle="buttons" aria-label="Basic radio toggle button group">
+                        <div class="col-lg-6 col-md-5 col-sm-4"></div>
+                        <div class="btn-group btn-group-toggle mb-2 mr-2 col-md-2 col-sm-3" data-toggle="buttons" aria-label="Basic radio toggle button group">
                             <label class="btn btn-primary" id="monatButton" onclick="monatSwitch();">
                                 <input type="radio" name="options" id="option1"> Monatsansicht
                             </label>
                             <label class="btn btn-outline-primary" id="jahrButton" onclick="jahrSwitch();">
                                 <input type="radio" name="options" id="option2"> Jahresansicht
                             </label>
-                        </div>-->
-                        <div class="btn-group mb-2 mr-2 col-md-2 col-sm-3" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary" for="btnradio1" id="monatButton" onclick="monatSwitch();">Monatsansicht</label>
-
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btnradio2" id="jahrButton" onclick="jahrSwitch();">Jahresansicht</label>
-
                         </div>
                     </div>
                     <div class="row">
@@ -105,12 +222,12 @@ foreach ($stack as $item) {
                                 </div>
                                 <div class="row">
 
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_1">
+                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6 year_calendendar" id="calendar_year_1" onclick="showMonth(0);">
                                         <div class="calendar_header calendar_header_year" onclick="showMonth(0);">
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
-                                        <div class="calendar_weekdays"></div>
-                                        <div class="calendar_content"></div>
+                                        <div class="calendar_weekdays_year calendar_weekdays year_calendendar"></div>
+                                        <div class="calendar_content_year calendar_content year_calendendar"></div>
                                     </div>
 
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_2">
@@ -118,8 +235,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_3">
@@ -127,8 +244,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_4">
@@ -136,8 +253,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_5">
@@ -145,8 +262,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_6">
@@ -154,8 +271,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_7">
@@ -163,8 +280,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_8">
@@ -172,8 +289,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_9">
@@ -181,8 +298,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_10">
@@ -190,8 +307,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_11">
@@ -199,8 +316,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                     <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_12">
@@ -208,8 +325,8 @@ foreach ($stack as $item) {
                                             <h2 class="calendar_header_year_ueberschrift"></h2>
                                         </div>
                                         <div>
-                                            <div class="calendar_weekdays"></div>
-                                            <div class="calendar_content"></div>
+                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                            <div class="calendar_content_year calendar_content"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -228,8 +345,8 @@ foreach ($stack as $item) {
                                         <i class="fa fa-caret-right fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
                                     </button>
                                 </div>
-                                <div class="calendar_weekdays"></div>
-                                <div class="calendar_content"></div>
+                                <div class="calendar_weekdays month_line"></div>
+                                <div class="calendar_content month_line"></div>
                             </div>
 
                         </div>
@@ -238,30 +355,12 @@ foreach ($stack as $item) {
 
                 </div>
 
-                <div class="row">
-                    <label class="col-5" style="text-align: right; font-size: 1.25em">Versandzeit festlegen (ohne Sonntag):</label>
-                    <div class="input-group mb-3 col-3">
-                        <div class="input-group-prepend">
-                            <button type="button" class="input-group-text btn btn-primary" id="minusButton">-</button>
-                        </div>
-                        <input type="number" class="form-control" value="0" id="versandZeit" min="0" disabled>
-                        <div class="input-group-append">
-                            <button type="button" class="input-group-text btn btn-primary" id="plusButton">+</button>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <button type="button" onclick="setVersandNull();" class ="btn btn-secondary">Auf 0 Tage setzen</button>
-                    </div>
-                </div>
 
             </div>
         </div>
 
     </div>
-
-
-
-
+</body>
 
 <style>
 
@@ -297,10 +396,28 @@ foreach ($stack as $item) {
     .calendar_weekdays div, .calendar_content div {
         width: 14.28571%;
         height: 68px;
-        line-height: 69px;
         overflow: hidden;
         text-align: center;
         background-color: transparent;
+    }
+
+    .month_line{
+        line-height: 69px;
+    }
+
+    .year_calendendar:hover{
+        cursor: pointer!important;
+        border-color: #007bff!important;
+        border-radius: 10px!important;
+    }
+
+    .calendar_weekdays_year div, .calendar_content_year div {
+        width: 14.28571%;
+        height: 25px;
+        overflow: hidden;
+        text-align: center;
+        background-color: transparent;
+        font-size: smaller !important;
     }
 
     .calendar_content .today {
@@ -396,22 +513,27 @@ foreach ($stack as $item) {
 
 
 </style>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
 <script>
-    /*datumList(0);
-    b();
-    c(month, year, 0);*/
+
+
     $(document).ready(function() {
-        datumList(0);
+        datumList();
         b();
         c(month, year, 0);
     });
+    function start (){
+        datumList();
+        b();
+        c(month, year, 0);
+    }
+
 
     //Aus Übergabedaten das von und bis herauslesen
 
     var bookdatelist = [];
 
-    function datumList(versand) {
+    function datumList() {
         var js_array = <?php echo json_encode($stack);?>;
         var startDatum = [];
         var endDatum   = [];
@@ -419,20 +541,8 @@ foreach ($stack as $item) {
         for (let j = 0; j < js_array.length; j++) {
             var tmpStart = new Date(js_array[j]['datumvon'].substring(0, 4), js_array[j]['datumvon'].substring(5, 7) - 1, js_array[j]['datumvon'].substring(8, 10));
 
-            for (let k = 0; k < versand; k++) {
-                tmpStart.setDate(tmpStart.getDate() - 1);
-                if (tmpStart.getDay() === 0) {
-                    k--;
-                }
-            }
             startDatum.push(tmpStart);
             var tmpEnde = new Date((js_array[j]['datumbis'].substring(0, 4)), js_array[j]['datumbis'].substring(5, 7) - 1, js_array[j]['datumbis'].substring(8, 10));
-            for (let k = 0; k < versand; k++) {
-                tmpEnde.setDate(tmpEnde.getDate() + 1);
-                if (tmpEnde.getDay() === 0) {
-                    k--;
-                }
-            }
             endDatum.push(tmpEnde);
 
         }
@@ -789,7 +899,7 @@ foreach ($stack as $item) {
         document.getElementById("calendar_year").style.display = "none"
         document.getElementById("todayButton").style.display = "block"
         document.getElementById("todayButtonYear").style.display = "none"
-        datumList(document.getElementById("versandZeit").value);
+        datumList();
         monatsAnsicht = true;
         c(month, year, 0);
     }
@@ -823,50 +933,8 @@ foreach ($stack as $item) {
 
     function showMonth (monat){
         month = monat;
-        datumList(document.getElementById("versandZeit").value);
+        datumList();
         document.getElementById("monatButton").click();
-    }
-
-
-    document.getElementById("plusButton").onclick = function(){
-        var elm = document.getElementById("versandZeit");
-        elm.value++;
-        if (monatsAnsicht){
-            datumList(elm.value);
-            c(month, year, 0);
-        }
-        else {
-            datumList(elm.value);
-            jahrSwitch();
-        }
-    }
-
-    document.getElementById("minusButton").onclick = function(){
-        var elm = document.getElementById("versandZeit");
-        elm.value--;
-        if (elm.value <0){
-            elm.value = 0;
-        }
-        if (monatsAnsicht){
-            datumList(elm.value);
-            c(month, year, 0);
-        }
-        else {
-            datumList(elm.value);
-            jahrSwitch();
-        }
-    }
-
-    function setVersandNull(){
-        var elm = document.getElementById("versandZeit").value = 0;
-        if (monatsAnsicht){
-            datumList(elm.value);
-            c(month, year, 0);
-        }
-        else {
-            datumList(elm.value);
-            jahrSwitch();
-        }
     }
 
 
