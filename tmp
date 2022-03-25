@@ -1,0 +1,74 @@
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="h5">Kundendaten</div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <input type="text" class="form-control " disabled="" id="vornameundname" name="vornameundname" placeholder="" value="<?=$personendaten[0]['vorname']?>">
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control " disabled="" id="vornameundname" name="vornameundname" placeholder="" value="<?=$personendaten[0]['name']?>">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="adresseDropdown">Lieferadresse:</label>
+                            </div>
+                            <select class="custom-select" id="adresseDropdown" onchange="andereAdresse()">
+                                <option disabled selected hidden>Bitte wählen Sie eine Lieferadresse</option>
+                                <?php foreach ($personendaten as $adresse):?>
+                                    <option><?=$adresse['strasse']?> <?=$adresse['hausnummer']?><?php echo ($adresse['adresszusatz'] === '') ? '' : ", " . $adresse['adresszusatz']; ?>, <?=$adresse['land']?>-<?=$adresse['plz']?> <?=$adresse['ort']?></option>
+                                <?php endforeach;?>
+                                <option>abweichende Lieferadresse</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: none" id="neueAdresse">
+                    <div class="row mb-3 mt-3">
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="strasse" placeholder="Musterstraße">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="hausnummer" placeholder="123">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <input type="text" class="form-control" id="adresszusatz" placeholder="Adresszusatz">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <input type="text" class="form-control" id="land" placeholder="DE">
+                        </div>
+                        <div class="col-4">
+                            <input type="number" class="form-control" id="postleitzahl" placeholder="PLZ">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" id="stadt" placeholder="Stadt">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+function andereAdresse(){
+        if (document.getElementById("adresseDropdown").value === "abweichende Lieferadresse"){
+            document.getElementById("neueAdresse").style.display = "block";
+        }
+        else{
+            document.getElementById("neueAdresse").style.display = "none";
+        }
+
+    }
