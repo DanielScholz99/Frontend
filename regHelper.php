@@ -3,7 +3,14 @@ $curl = curl_init();
 
 $url = 'https://localhost/mysite-project/public/api/register';
 
-$data = array('vorname' => $_POST["vorname"],
+if ($_POST["land1"]=="Deutschland"){
+    $nationalitaet = "DE";
+} else {
+    $nationalitaet = "";
+}
+
+$data = array(
+    'vorname' => $_POST["vorname"],
     'name' => $_POST["name"],
     'email' => $_POST["email"],
     'strasse' => '',
@@ -18,20 +25,20 @@ $data = array('vorname' => $_POST["vorname"],
     'mandatsreferenz' => '',
     'ustidnr' => '',
     'secret' => '',
-    'nationalitaet' => '',
-    'rollenid' => '4000',
+    'nationalitaet' => $nationalitaet,
+    'rollenid' => $_POST["rollenid"],
     'adresszusatz1' => '',
-    'strasse1' => 'Lindenstraße',
-    'hausnummer1' => '22',
-    'plz1' => '54294',
-    'ort1' => 'Trier',
+    'strasse1' => $_POST["strasse1"],
+    'hausnummer1' => $_POST["hausnummer1"],
+    'plz1' => $_POST["plz1"],
+    'ort1' => $_POST["ort1"],
     'adresszusatz2' => '',
     'strasse2' => '',
     'hausnummer2' => '',
     'plz2' => '',
     'ort2' => '',
     'notfallkontakt' => '',
-    'land1' => 'Deutschland',
+    'land1' => $_POST["land1"],
     'land2' => ''
 );
 
@@ -54,8 +61,44 @@ if ($e = curl_error($curl)) {
         echo "Register successful! Redirect now!";
         header("refresh:3;url=login.php");
     } else{
-        header("refresh:3;url=register.php");
-        print_r($tmp);
+        echo "<h2>Fehlerhafte Registrierung: </h2>";
+        if (str_contains($tmp,"The name field is required.")){
+            echo "<p>Name wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The vorname field is required.")){
+            echo "<p>Vorname wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The email field is required.")){
+            echo "<p>Email wurde nicht gesetzt oder hat die falsche Form</p>";
+        }
+        if (str_contains($tmp,"The email field must contain a valid email address.")){
+            echo "<p>Email hat die falsche Form</p>";
+        }
+
+        if (str_contains($tmp,"The psw field is required.")){
+            echo "<p>Passwort wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The rollenid field is required.")) {
+            echo "<p>RollenID wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The strasse1 field is required.")){
+            echo "<p>Strasse wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The hausnummer1 field is required.")){
+            echo "<p>Hausnummer wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The plz1 field is required.")){
+            echo "<p>PLZ wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The ort1 field is required.")){
+            echo "<p>Ort wurde nicht gesetzt</p>";
+        }
+        if (str_contains($tmp,"The land1 field is required.")){
+            echo "<p>Land wurde nicht gesetzt</p>";
+        }
+        print_r($decoded);
+        echo "<form action='register.php'><button type='submit'>Zurück zur Registrierung</button></form>";
+
     }
 }
 curl_close($curl);
