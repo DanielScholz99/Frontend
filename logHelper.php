@@ -35,6 +35,7 @@ if($e = curl_error($curl)){
             -Nachschauen ob cookie ordentlich gespeichert wird
             -PersonenID an Daniels Code weitergeben
             -hübsch machen
+            -bei Register noch Rollen-Beschreibung hinzufügen
     */
 }
 curl_close($curl);
