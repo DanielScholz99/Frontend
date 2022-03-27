@@ -1,3 +1,4 @@
+
 <?php
 $curl = curl_init();
 
@@ -5,7 +6,7 @@ $url = 'https://localhost/mysite-project/public/api/login';
 
 $data = array(
     'email' => $_POST['email'],
-    'passwort' => $_POST['psw']
+    'passwort' => $_POST['password']
 );
 curl_setopt($curl,CURLOPT_URL,$url);
 curl_setopt($curl,CURLOPT_POST,$url);
@@ -21,14 +22,25 @@ if($e = curl_error($curl)){
 }else {
     $decoded = json_decode($response);
     foreach ($decoded as $key => $value){
-        if ($key === "access_token"){
-            print_r($key);
-            print_r(" => ");
-            print_r($value);
-            setcookie("access_token", $value);
+        if ($value === "Invalid login credentials provided"){
+            echo '<script> alert("Login fehlgeschlagen, bitte Daten überprüfen und neu versuchen!"); window.location.reload()</script>';
+
+        } else {
+            if ($key === "access_token"){
+                setcookie("access_token", $value);
+            }
+            if ($key === "user"){
+                foreach ($value as $key2 => $value2){
+                    if ($key2 === "id"){
+                        setcookie("id", $value2);
+                    }
+                }
+            }
+            echo '<script> alert("Login erfolgreich, leite weiter."); window.location.href = "schirme.php";</script>';
         }
     }
-    //print_r($response);
+
+
 
     /*
         To-Do:
@@ -39,3 +51,6 @@ if($e = curl_error($curl)){
     */
 }
 curl_close($curl);
+//echo $_COOKIE["id"];
+//echo $_COOKIE["access_token"]
+?>
