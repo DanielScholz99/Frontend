@@ -6,7 +6,7 @@
 
 <style>
     html {
-        background-color: #56baed;
+        background-color: white;
     }
 
     body {
@@ -292,6 +292,10 @@
     </div>
 </div>
 <div id="result" style="display: none">
+
+</div>
+
+<div id="register" style="display: none">
 
 </div>
 </body>

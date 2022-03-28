@@ -14,33 +14,33 @@ $data = array(
     'vorname' => $_POST["vorname"],
     'name' => $_POST["name"],
     'email' => $_POST["email"],
-    'strasse' => '',
-    'firma' => '',
-    'abteilung' => '',
-    'passwort' => $_POST["psw"],
-    'mob' => '',
-    'tel' => '',
-    'iban' => '',
-    'bic' => '',
-    'bank' => '',
-    'mandatsreferenz' => '',
+    'strasse' => $_POST["strasseF"],
+    'firma' => $_POST["firma"],
+    'abteilung' => $_POST["abteilung"],
+    'passwort' => $_POST["password"],
+    'mob' => $_POST["mob"],
+    'tel' => $_POST["tel"],
+    'iban' => $_POST["iban"],
+    'bic' => $_POST["bic"],
+    'bank' => $_POST["bank"],
+    'mandatsreferenz' => $_POST["mandatsref"],
     'ustidnr' => '',
     'secret' => '',
     'nationalitaet' => $nationalitaet,
-    'rollenid' => $_POST["rollenid"],
-    'adresszusatz1' => '',
+    'rollenid' => '1000',
+    'adresszusatz1' => $_POST["adresszusatz1"],
     'strasse1' => $_POST["strasse1"],
     'hausnummer1' => $_POST["hausnummer1"],
     'plz1' => $_POST["plz1"],
     'ort1' => $_POST["ort1"],
-    'adresszusatz2' => '',
-    'strasse2' => '',
-    'hausnummer2' => '',
-    'plz2' => '',
-    'ort2' => '',
-    'notfallkontakt' => '',
+    'adresszusatz2' => $_POST["adresszusatz2"],
+    'strasse2' => $_POST["strasse2"],
+    'hausnummer2' => $_POST["hausnummer2"],
+    'plz2' => $_POST["plz2"],
+    'ort2' => $_POST["ort2"],
+    'notfallkontakt' => $_POST["notfallkontakt"],
     'land1' => $_POST["land1"],
-    'land2' => ''
+    'land2' => $_POST["land2"]
 );
 
 curl_setopt($curl, CURLOPT_URL, $url);
@@ -60,7 +60,8 @@ if ($e = curl_error($curl)) {
     $tmp = json_encode($decoded);
     if (str_contains($tmp,"User generated succesfully" )){
         echo "Register successful! Redirect now!";
-        header("refresh:3;url=login.php");
+        //header("refresh:3;url=login.php");
+        echo "<script> alert('Registrierung erfolgreich') </script>";
     } else{
         echo "<h2>Fehlerhafte Registrierung: </h2>";
         if (str_contains($tmp,"The name field is required.")){
@@ -79,9 +80,6 @@ if ($e = curl_error($curl)) {
         if (str_contains($tmp,"The psw field is required.")){
             echo "<p>Passwort wurde nicht gesetzt</p>";
         }
-        if (str_contains($tmp,"The rollenid field is required.")) {
-            echo "<p>RollenID wurde nicht gesetzt</p>";
-        }
         if (str_contains($tmp,"The strasse1 field is required.")){
             echo "<p>Strasse wurde nicht gesetzt</p>";
         }
@@ -98,7 +96,6 @@ if ($e = curl_error($curl)) {
             echo "<p>Land wurde nicht gesetzt</p>";
         }
         print_r($decoded);
-        echo "<form action='register.php'><button type='submit'>Zurück zur Registrierung</button></form>";
 
     }
 }
