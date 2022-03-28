@@ -184,178 +184,181 @@ foreach ($decoded as $item) {
 ?>
 
 <body>
-    <div class="container">
-        <div class="calendar-section">
 
-            <div class="card bg-white mt-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-1" style="text-align: right"></div>
-                        <button type="button" id="todayButtonYear" class="btn btn-success mb-2 mr-2 col-md-1 col-sm-2" style="display: none"><i class="fas fa-calendar-day"></i> Heute</button>
-                        <button type="button" id="todayButton" class="btn btn-success mb-2 mr-2 col-md-1 col-sm-2"><i class="fas fa-calendar-day"></i> Heute</button>
-                        <div class="col-lg-6 col-md-5 col-sm-4"></div>
-                        <div class="btn-group btn-group-toggle mb-2 mr-2 col-md-2 col-sm-3" data-toggle="buttons" aria-label="Basic radio toggle button group">
-                            <label class="btn btn-primary" id="monatButton" onclick="monatSwitch();">
-                                <input type="radio" name="options" id="option1"> Monatsansicht
-                            </label>
-                            <label class="btn btn-outline-primary" id="jahrButton" onclick="jahrSwitch();">
-                                <input type="radio" name="options" id="option2"> Jahresansicht
-                            </label>
+
+                    <div class="container">
+                        <div class="calendar-section">
+
+                            <div class="card bg-white mt-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-1" style="text-align: right"></div>
+                                        <button type="button" id="todayButtonYear" class="btn btn-success mb-2 mr-2 col-md-1 col-sm-2" style="display: none"><i class="fas fa-calendar-day"></i> Heute</button>
+                                        <button type="button" id="todayButton" class="btn btn-success mb-2 mr-2 col-md-1 col-sm-2"><i class="fas fa-calendar-day"></i> Heute</button>
+                                        <div class="col-lg-6 col-md-5 col-sm-4"></div>
+                                        <div class="btn-group btn-group-toggle mb-2 mr-2 col-md-2 col-sm-3" data-toggle="buttons" aria-label="Basic radio toggle button group">
+                                            <label class="btn btn-primary" id="monatButton" onclick="monatSwitch();">
+                                                <input type="radio" name="options" id="option1"> Monatsansicht
+                                            </label>
+                                            <label class="btn btn-outline-primary" id="jahrButton" onclick="jahrSwitch();">
+                                                <input type="radio" name="options" id="option2"> Jahresansicht
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div  id="calendar_year" style="display: none; margin-bottom: 2em">
+                                                <div class="row">
+                                                    <button type="button" class="switch-month switch-left col-1" id="prevYear">
+                                                        <i class="fa fa-caret-left fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
+                                                    </button>
+                                                    <div class="col-10 h2" style="text-align: center" id="year">
+                                                    </div>
+                                                    <button type="button" class="switch-month switch-right col-1" id="nextYear">
+                                                        <i class="fa fa-caret-right fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6 year_calendendar" id="calendar_year_1" onclick="showMonth(0);">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(0);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div class="calendar_weekdays_year calendar_weekdays year_calendendar"></div>
+                                                        <div class="calendar_content_year calendar_content year_calendendar"></div>
+                                                    </div>
+
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_2">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(1);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_3">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(2);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_4">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(3);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_5">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(4);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_6">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(5);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_7">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(6);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_8">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(7);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_9">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(8);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_10">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(9);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_11">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(10);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_12">
+                                                        <div class="calendar_header calendar_header_year" onclick="showMonth(11);">
+                                                            <h2 class="calendar_header_year_ueberschrift"></h2>
+                                                        </div>
+                                                        <div>
+                                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
+                                                            <div class="calendar_content_year calendar_content"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="calendar calendar-first" id="calendar_first" style="margin-bottom: 2em;">
+
+                                                <div class="calendar_header">
+                                                    <button type="button" class="switch-month switch-left">
+                                                        <i class="fa fa-caret-left fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
+                                                    </button>
+                                                    <h2></h2>
+                                                    <button type="button" class="switch-month switch-right">
+                                                        <i class="fa fa-caret-right fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="calendar_weekdays month_line"></div>
+                                                <div class="calendar_content month_line"></div>
+                                            </div>
+
+                                        </div>
+
+                                    </div> <!-- End Row -->
+
+                                </div>
+
+
+                            </div>
                         </div>
+
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div  id="calendar_year" style="display: none; margin-bottom: 2em">
-                                <div class="row">
-                                    <button type="button" class="switch-month switch-left col-1" id="prevYear">
-                                        <i class="fa fa-caret-left fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
-                                    </button>
-                                    <div class="col-10 h2" style="text-align: center" id="year">
-                                    </div>
-                                    <button type="button" class="switch-month switch-right col-1" id="nextYear">
-                                        <i class="fa fa-caret-right fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
-                                    </button>
-                                </div>
-                                <div class="row">
 
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6 year_calendendar" id="calendar_year_1" onclick="showMonth(0);">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(0);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div class="calendar_weekdays_year calendar_weekdays year_calendendar"></div>
-                                        <div class="calendar_content_year calendar_content year_calendendar"></div>
-                                    </div>
-
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_2">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(1);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_3">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(2);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6"  id="calendar_year_4">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(3);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_5">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(4);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_6">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(5);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_7">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(6);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_8">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(7);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_9">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(8);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_10">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(9);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_11">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(10);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                    <div class="calendar calendar-first col-md-4 col-lg-3 col-sm-6" id="calendar_year_12">
-                                        <div class="calendar_header calendar_header_year" onclick="showMonth(11);">
-                                            <h2 class="calendar_header_year_ueberschrift"></h2>
-                                        </div>
-                                        <div>
-                                            <div class="calendar_weekdays_year calendar_weekdays"></div>
-                                            <div class="calendar_content_year calendar_content"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="calendar calendar-first" id="calendar_first" style="margin-bottom: 2em;">
-
-                                <div class="calendar_header">
-                                    <button type="button" class="switch-month switch-left">
-                                        <i class="fa fa-caret-left fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
-                                    </button>
-                                    <h2></h2>
-                                    <button type="button" class="switch-month switch-right">
-                                        <i class="fa fa-caret-right fa-2x" aria-hidden="true" style="vertical-align: middle;"></i>
-                                    </button>
-                                </div>
-                                <div class="calendar_weekdays month_line"></div>
-                                <div class="calendar_content month_line"></div>
-                            </div>
-
-                        </div>
-
-                    </div> <!-- End Row -->
-
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
 </body>
 
 <style>
@@ -517,7 +520,6 @@ foreach ($decoded as $item) {
         datumList();
         b();
         c(month, year, 0);
-        alert("hier");
     }
 
 

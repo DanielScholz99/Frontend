@@ -76,7 +76,7 @@ $personendaten = json_decode(json_encode($datas), true);
     }
 </style>
 
-
+<div id="ganzeBuchungsseite">
     <h1>Buchung</h1>
 
 
@@ -199,88 +199,88 @@ $personendaten = json_decode(json_encode($datas), true);
         </div>
     </div>
 
-<div class="row mt-3">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between">
-                <div class="h5">Lieferdaten</div>
-                <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                    <label class="btn btn-primary" id="lieferungsbtn" onclick="lieferung();">
-                        <input type="radio" name="options"> Lieferung
-                    </label>
-                    <label class="btn btn-outline-primary" id="abholungsbtn" onclick="abholung();">
-                        <input type="radio" name="options"> Abholung
-                    </label>
-                </div>
-            </div>
-            <div class="card-body">
-                <div id="lieferadresse">
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <input type="text" class="form-control " disabled="" id="vorname" name="vorname" placeholder="" value="<?=$personendaten[0]['vorname']?>">
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control " disabled="" id="name" name="name" placeholder="" value="<?=$personendaten[0]['name']?>">
-                        </div>
-                    </div>
-                    <div class="row mb-3 mt-3">
-                        <div class="col-9">
-                            <input type="text" class="form-control " disabled="" id="lieferstrasse" name="lieferstrasse" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['strasse'] : $personendaten[0]['strasse']; ?>">
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control " disabled="" id="lieferhausnummer" name="lieferhausnummer" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['hausnummer'] : $personendaten[0]['hausnummer']; ?>">
-                        </div>
-                    </div>
-                    <div class="row mb-3" id="adresszusatzDiv">
-                        <div class="col-12">
-                            <input type="text" class="form-control " disabled="" id="lieferadresszusatz" name="lieferadresszusatz" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['adresszusatz'] : $personendaten[0]['adresszusatz']; ?>">
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="col-2">
-                            <input type="text" class="form-control " disabled="" id="lieferland" name="lieferland" placeholder="DE" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['land'] : $personendaten[0]['land']; ?>">
-                        </div>
-                        <div class="col-4">
-                            <input type="text" class="form-control " disabled="" id="lieferpostleitzahl" name="lieferpostleitzahl" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['plz'] : $personendaten[0]['plz']; ?>">
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control " disabled="" id="lieferort" name="lieferort" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['ort'] : $personendaten[0]['ort']; ?>">
-                        </div>
+    <div class="row mt-3">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="h5">Lieferdaten</div>
+                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                        <label class="btn btn-primary" id="lieferungsbtn" onclick="lieferung();">
+                            <input type="radio" name="options"> Lieferung
+                        </label>
+                        <label class="btn btn-outline-primary" id="abholungsbtn" onclick="abholung();">
+                            <input type="radio" name="options"> Abholung
+                        </label>
                     </div>
                 </div>
-
-
-                <div id="abholadresse" style="display: none">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <input type="text" class="form-control " disabled="" id="abholschule" name="vorname" placeholder="" value="Moselglider GdbR">
+                <div class="card-body">
+                    <div id="lieferadresse">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <input type="text" class="form-control " disabled="" id="vorname" name="vorname" placeholder="" value="<?=$personendaten[0]['vorname']?>">
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control " disabled="" id="name" name="name" placeholder="" value="<?=$personendaten[0]['name']?>">
+                            </div>
+                        </div>
+                        <div class="row mb-3 mt-3">
+                            <div class="col-9">
+                                <input type="text" class="form-control " disabled="" id="lieferstrasse" name="lieferstrasse" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['strasse'] : $personendaten[0]['strasse']; ?>">
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control " disabled="" id="lieferhausnummer" name="lieferhausnummer" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['hausnummer'] : $personendaten[0]['hausnummer']; ?>">
+                            </div>
+                        </div>
+                        <div class="row mb-3" id="adresszusatzDiv">
+                            <div class="col-12">
+                                <input type="text" class="form-control " disabled="" id="lieferadresszusatz" name="lieferadresszusatz" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['adresszusatz'] : $personendaten[0]['adresszusatz']; ?>">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-2">
+                                <input type="text" class="form-control " disabled="" id="lieferland" name="lieferland" placeholder="DE" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['land'] : $personendaten[0]['land']; ?>">
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control " disabled="" id="lieferpostleitzahl" name="lieferpostleitzahl" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['plz'] : $personendaten[0]['plz']; ?>">
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control " disabled="" id="lieferort" name="lieferort" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['ort'] : $personendaten[0]['ort']; ?>">
+                            </div>
                         </div>
                     </div>
-                    <div class="row mb-3 mt-3">
-                        <div class="col-9">
-                            <input type="text" class="form-control " disabled="" id="abholstrasse" name="abholstrasse" placeholder="" value="Im Handwerkerhof">
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control " disabled="" id="abholhausnummer" name="abholhausnummer" placeholder="" value="7 - 9">
-                        </div>
-                    </div>
 
-                    <div class="row ">
-                        <div class="col-2">
-                            <input type="text" class="form-control " disabled="" id="abholland" name="abholland" placeholder="DE" value="DE">
+
+                    <div id="abholadresse" style="display: none">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <input type="text" class="form-control " disabled="" id="abholschule" name="vorname" placeholder="" value="Moselglider GdbR">
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <input type="text" class="form-control " disabled="" id="abholpostleitzahl" name="abholpostleitzahl" placeholder="" value="54338">
+                        <div class="row mb-3 mt-3">
+                            <div class="col-9">
+                                <input type="text" class="form-control " disabled="" id="abholstrasse" name="abholstrasse" placeholder="" value="Im Handwerkerhof">
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control " disabled="" id="abholhausnummer" name="abholhausnummer" placeholder="" value="7 - 9">
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control " disabled="" id="abholort" name="abholort" placeholder="" value="Schweich">
+
+                        <div class="row ">
+                            <div class="col-2">
+                                <input type="text" class="form-control " disabled="" id="abholland" name="abholland" placeholder="DE" value="DE">
+                            </div>
+                            <div class="col-4">
+                                <input type="text" class="form-control " disabled="" id="abholpostleitzahl" name="abholpostleitzahl" placeholder="" value="54338">
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control " disabled="" id="abholort" name="abholort" placeholder="" value="Schweich">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <div class="mt-3 float-right">
         <button class="btn btn-primary" onclick="buchungAbbrechen()"><i class="fas fa-times-circle"></i> Buchung abbrechen</i></button>
@@ -305,13 +305,14 @@ $personendaten = json_decode(json_encode($datas), true);
         </div>
     </div>
 
-
+</div>
 
 
 <script>
 
     name = "";
     var abholungsvar = 0;
+    var kalenderBuchungsDivModal = document.getElementById('calendar');
 
     function start(hersteller, linie, bezeichnung, groesse, farbe, preis, gebuehr){
         document.getElementById("hersteller").innerHTML = hersteller;
@@ -399,12 +400,13 @@ $personendaten = json_decode(json_encode($datas), true);
             }
         });
         document.getElementById("buchungsseite").style.display = "none";
-        //document.getElementById("successdiv").style.display ="block";
     }
 
     function buchungAbbrechen(){
         document.getElementById("buchungsseite").style.display = "none";
         document.getElementById("liste").style.display = "block";
+        document.getElementById("seitendiv").append(kalenderListeDivModal);
+        kalenderBuchungsDivModal.parentNode.removeChild(kalenderBuchungsDivModal);
     }
 
     function lieferung(){

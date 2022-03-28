@@ -93,114 +93,115 @@ if (isset($_COOKIE['access_token'])) {
     $multiplikator = json_decode(json_encode($decoded), true)['kaution'];
 ?>
 
-<div class="container" id="liste">
-    <div class="card">
-        <div class="card-body">
+<div id="seitendiv">
+    <div class="container" id="liste">
+        <div class="card">
+            <div class="card-body">
 
 
 
 
 
-            <table class="table table-responsive table-striped table-hover d-table"
-                   id="tableprodukte"
-                   showColumnsToggleAll="true"
-                   data-toggle="table"
-                   data-search="true"
-                   data-sort-stable="true"
-                   data-mobile-responsive="true"
-                   data-check-on-init="true"
-                   data-toolbar="#toolbar"
-                   data-footer-style="footerStyle"
-            >
-                <b>Für jede Buchung fällt eine Gebühr von <?=$gebuer?>€ an!</b>
-                <thead align="left">
-                <tr>
-                    <th data-sortable="true">Produkt</th>
-                    <th data-sortable="true">Größe</th>
-                    <th>Farbe</th>
-                    <th data-sortable="true">Kaution</th>
-                    <th data-sortable="true">Status</th>
-                    <th>Kalender</th>
-                    <th>Buchen</th>
+                <table class="table table-responsive table-striped table-hover d-table"
+                       id="tableprodukte"
+                       showColumnsToggleAll="true"
+                       data-toggle="table"
+                       data-search="true"
+                       data-sort-stable="true"
+                       data-mobile-responsive="true"
+                       data-check-on-init="true"
+                       data-toolbar="#toolbar"
+                       data-footer-style="footerStyle"
+                >
+                    <b>Für jede Buchung fällt eine Gebühr von <?=$gebuer?>€ an!</b>
+                    <thead align="left">
+                    <tr>
+                        <th data-sortable="true">Produkt</th>
+                        <th data-sortable="true">Größe</th>
+                        <th>Farbe</th>
+                        <th data-sortable="true">Kaution</th>
+                        <th data-sortable="true">Status</th>
+                        <th>Kalender</th>
+                        <th>Buchen</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                <? $stack = []?>
-                <?foreach ($decoded as $array):?>
-                    <?$decoded = json_decode(json_encode($array), true)?>
-                    <?if (is_array($decoded)):?>
-                        <?foreach ($decoded as $item):?>
-                            <?if (!in_array($item['id'], $stack)): ?>
-                                <? array_push($stack, $item['id'])?>
-                                <? $name = $item['hersteller'] . " " . $item['produktlinie'] . " " . $item['bezeichnung']?>
-                                    <tr class="<?=$item['hersteller']?>">
-                                        <td><?= $name?></td>
-                                        <td><?=$item['groesse']?></td>
-                                        <td> <?=$item['farbe']?></td>
-                                        <td><?=$item['vkpreis'] * $multiplikator?> €</td>
-                                        <td style="text-align: center"><? if (in_array($item['id'], $reserved)): ?>
-                                                <i class="fas fa-times-circle belegt" title="belegt"></i>
-                                            <? else:?>
-                                                <i class="fas fa-check-circle verfuegbar" title="verfügbar"></i>
-                                            <?endif;?>
-                                        </td>
-                                        <td><button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' id='btnKalender' data-bs-target='#exampleModal' onclick="getCalendar(<?=$item["id"]?>, '<?=$name?> <?=$item['groesse']?> <?=$item['farbe']?>')"><i class="fas fa-calendar-alt"></i> Kalender anzeigen</button></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <? $stack = []?>
+                    <?foreach ($decoded as $array):?>
+                        <?$decoded = json_decode(json_encode($array), true)?>
+                        <?if (is_array($decoded)):?>
+                            <?foreach ($decoded as $item):?>
+                                <?if (!in_array($item['id'], $stack)): ?>
+                                    <? array_push($stack, $item['id'])?>
+                                    <? $name = $item['hersteller'] . " " . $item['produktlinie'] . " " . $item['bezeichnung']?>
+                                        <tr class="<?=$item['hersteller']?>">
+                                            <td><?= $name?></td>
+                                            <td><?=$item['groesse']?></td>
+                                            <td> <?=$item['farbe']?></td>
+                                            <td><?=$item['vkpreis'] * $multiplikator?> €</td>
+                                            <td style="text-align: center"><? if (in_array($item['id'], $reserved)): ?>
+                                                    <i class="fas fa-times-circle belegt" title="belegt"></i>
+                                                <? else:?>
+                                                    <i class="fas fa-check-circle verfuegbar" title="verfügbar"></i>
+                                                <?endif;?>
+                                            </td>
+                                            <td><button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' id='btnKalender' data-bs-target='#exampleModal' onclick="getCalendar(<?=$item["id"]?>, '<?=$name?> <?=$item['groesse']?> <?=$item['farbe']?>')"><i class="fas fa-calendar-alt"></i> Kalender anzeigen</button></td>
 
-                                        <td>
-                                            <button type='button' class='btn btn-outline-success' id='btnBuchen' onclick="bookProduct(<?=$item["id"]?>, '<?=$item["hersteller"]?>', '<?=$item["produktlinie"]?>', '<?=$item["bezeichnung"]?>', '<?=$item["groesse"]?>', '<?=$item["farbe"]?>', '<?=$item["vkpreis"] * $multiplikator?>', '<?=$gebuer?>' )"><i class="fas fa-parachute-box"></i> Produkt buchen <i class="fas fa-arrow-right"></i></button>
-                                        </td>
-                                    </tr>
-                            <?endif;?>
-                        <? endforeach;?>
-                    <? endif;?>
-                <? endforeach;?>
-                </tbody>
-            </table>
-
-
+                                            <td>
+                                                <button type='button' class='btn btn-outline-success' id='btnBuchen' onclick="bookProduct(<?=$item["id"]?>, '<?=$item["hersteller"]?>', '<?=$item["produktlinie"]?>', '<?=$item["bezeichnung"]?>', '<?=$item["groesse"]?>', '<?=$item["farbe"]?>', '<?=$item["vkpreis"] * $multiplikator?>', '<?=$gebuer?>' )"><i class="fas fa-parachute-box"></i> Produkt buchen <i class="fas fa-arrow-right"></i></button>
+                                            </td>
+                                        </tr>
+                                <?endif;?>
+                            <? endforeach;?>
+                        <? endif;?>
+                    <? endforeach;?>
+                    </tbody>
+                </table>
 
 
 
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="kalender_div"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Schließen</button>
+
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="kalender_div"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<div class="container" id="buchungsseite" style="display: none">
-    <div class="card">
-        <div class="card-body" id="buchungs_div">
+    <div class="container" id="buchungsseite" style="display: none">
+        <div class="card">
+            <div class="card-body" id="buchungs_div">
 
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="successdiv" style="display: none">
+        <div class="card">
+            <div class="card-body" style="align-self: center" id="successmessage">
+                <h3>Ihre Buchung war erfolgreich</h3>
+            </div>
         </div>
     </div>
 </div>
-
-
-<div class="container" id="successdiv" style="display: none">
-    <div class="card">
-        <div class="card-body" style="align-self: center" id="successmessage">
-            <h3>Ihre Buchung war erfolgreich</h3>
-        </div>
-    </div>
-</div>
-
 
 <script>
     function getCalendar(id, name){
@@ -217,10 +218,13 @@ if (isset($_COOKIE['access_token'])) {
         });
     }
 
+    var kalenderListeDivModal = document.getElementById('exampleModal');
+
     function bookProduct (id, hersteller, linie, bezeichnung, groesse, farbe, kaution, gebuehr){
 
         document.getElementById('liste').style.display = "none";
         document.getElementById('buchungsseite').style.display = "block";
+        kalenderListeDivModal.parentNode.removeChild(kalenderListeDivModal);
 
         $.ajax({
             url: "Buchung.php?id=" + id,
