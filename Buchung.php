@@ -5,9 +5,8 @@ $id = $_GET["id"];
 $curl = curl_init();
 $url = $request_url . 'api/datum/' . $id;
 
-$data = array('email' => 'test@test.de','passwort' => '12345678');
-$header = array('Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5kZSJ9.cw-CjwC7Xmh5RAKG-b9f8Jds8qok7QsH0Kr3w4ssv_I',
-    'Cookie: ci_session=bv6gn8dq9526urrf5282j0shp8jktjos');
+    $access_token = 'Authorization: Bearer ' . $_COOKIE['access_token'];
+    $header = array($access_token);
 
 curl_setopt($curl,CURLOPT_URL,$url);
 //curl_setopt($curl,CURLOPT_POST,$url);
@@ -111,7 +110,7 @@ $personendaten = json_decode(json_encode($datas), true);
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="col-5">
                                     <label class="col-form-label" for="bezeichnung">Bezeichnung: </label>
@@ -121,7 +120,7 @@ $personendaten = json_decode(json_encode($datas), true);
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="col-5">
                                     <label class="col-form-label" for="groesse">Größe: </label>
@@ -131,9 +130,7 @@ $personendaten = json_decode(json_encode($datas), true);
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="col-5">
                                     <label class="col-form-label" for="farbe">Farbe: </label>
@@ -143,13 +140,25 @@ $personendaten = json_decode(json_encode($datas), true);
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-5">
-                                    <label class="col-form-label" for="preis">Preis: </label>
+                                    <label class="col-form-label" for="kaution">Kaution: </label>
                                 </div>
                                 <div class="col-7">
-                                    <label class="col-form-label daten" id="preis">Preis</label>
+                                    <label class="col-form-label daten" id="kaution">Kaution</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="col-form-label" for="gebuehr">Leihgebühr: </label>
+                                </div>
+                                <div class="col-7">
+                                    <label class="col-form-label daten" id="gebuehr">Gebühr</label>
                                 </div>
                             </div>
                         </div>
@@ -302,14 +311,16 @@ $personendaten = json_decode(json_encode($datas), true);
 <script>
 
     name = "";
+    var abholungsvar = 0;
 
-    function start(hersteller, linie, bezeichnung, groesse, farbe, preis){
+    function start(hersteller, linie, bezeichnung, groesse, farbe, preis, gebuehr){
         document.getElementById("hersteller").innerHTML = hersteller;
         document.getElementById("produktlinie").innerHTML = linie;
         document.getElementById("bezeichnung").innerHTML = bezeichnung;
         document.getElementById("groesse").innerHTML = groesse;
         document.getElementById("farbe").innerHTML = farbe;
-        document.getElementById("preis").innerHTML = preis + " €";
+        document.getElementById("kaution").innerHTML = preis + " €";
+        document.getElementById("gebuehr").innerHTML = gebuehr + " €";
         name = hersteller + " " + linie + " " + bezeichnung + " " + groesse + " " + farbe;
     }
 
@@ -321,8 +332,8 @@ $personendaten = json_decode(json_encode($datas), true);
         $.ajax({
             url: "Kalender.php?id=" + id,
             type: 'GET',
-            success: function (data){
-                $('#kalender_buchung').html(data);
+            success: function (daten){
+                $('#kalender_buchung').html(daten);
                 start();
             }
         });
@@ -379,7 +390,7 @@ $personendaten = json_decode(json_encode($datas), true);
         datumVon = document.getElementById("vonDatum").value;
         datumBis = document.getElementById("bisDatum").value;
         $.ajax({
-            url: "dokumentAnlegen.php?produktid=" + id + "&datumvon=" + datumVon + "&datumbis=" + datumBis,
+            url: "dokumentAnlegen.php?produktid=" + id + "&datumvon=" + datumVon + "&datumbis=" + datumBis + "&abholung=" + abholungsvar,
             type: 'GET',
             success: function (data){
                 $('#successmessage').html(data);
@@ -401,6 +412,7 @@ $personendaten = json_decode(json_encode($datas), true);
         document.getElementById("abholungsbtn").classList.replace('btn-primary', 'btn-outline-primary');
         document.getElementById("lieferadresse").style.display = "block";
         document.getElementById("abholadresse").style.display = "none";
+        abholungsvar = 0;
 
     }
     function abholung(){
@@ -408,6 +420,7 @@ $personendaten = json_decode(json_encode($datas), true);
         document.getElementById("lieferungsbtn").classList.replace('btn-primary', 'btn-outline-primary');
         document.getElementById("lieferadresse").style.display = "none";
         document.getElementById("abholadresse").style.display = "block";
+        abholungsvar = 1;
     }
 
 </script>

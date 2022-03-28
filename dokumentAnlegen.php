@@ -5,6 +5,7 @@ $produkteid = $_GET["produktid"];
 $datumvon = $_GET["datumvon"];
 $datumbis = $_GET["datumbis"];
 $kundenid = $_COOKIE["id"];
+$abholung = $_GET["abholung"];
 
 
 $curl = curl_init();
@@ -13,7 +14,7 @@ $access_token = 'Authorization: Bearer ' . $_COOKIE['access_token'];
 $header = array($access_token);
 
 
-$dokumentendaten = array('personenid' => $kundenid, 'produkteid' => $produkteid, 'datumvon' => $datumvon, 'datumbis' => $datumbis);
+$dokumentendaten = array('personenid' => $kundenid, 'produkteid' => $produkteid, 'datumvon' => $datumvon, 'datumbis' => $datumbis, 'abholung' => $abholung);
 curl_setopt_array($curl, array(
     CURLOPT_URL => $request_url . 'api/document',
     CURLOPT_RETURNTRANSFER => true,

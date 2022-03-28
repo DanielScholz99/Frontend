@@ -67,20 +67,30 @@ if (isset($_COOKIE['access_token'])) {
     curl_close($curl);
 
     $reserved = [];
-
+    $gebuer = 0;
+    $multiplikator = 0;
     foreach ($decoded as $item) {
         $array = json_decode(json_encode($item), true);
-        if ($array['datumvon']) {
-            $today = date('Y-m-d');
-            $begin = date('Y-m-d', strtotime($array['datumvon']));
-            $end = date('Y-m-d', strtotime($array['datumbis']));
+        if (is_array($array)) {
+            foreach ($array as $tmp) {
+                if ($tmp['datumvon']) {
+                    $today = date('Y-m-d');
+                    $begin = date('Y-m-d', strtotime($tmp['datumvon']));
+                    $end = date('Y-m-d', strtotime($tmp['datumbis']));
 
-            if (($today >= $begin) && ($today <= $end)) {
-                array_push($reserved, $array['id']);
+                    if (($today >= $begin) && ($today <= $end)) {
+                        array_push($reserved, $tmp['id']);
+                    }
+
+                }
             }
-
         }
+
+
+
     }
+    $gebuer = json_decode(json_encode($decoded), true)['leihgebuehren'];
+    $multiplikator = json_decode(json_encode($decoded), true)['kaution'];
 ?>
 
 <div class="container" id="liste">
@@ -102,13 +112,13 @@ if (isset($_COOKIE['access_token'])) {
                    data-toolbar="#toolbar"
                    data-footer-style="footerStyle"
             >
-
+                <b>Für jede Buchung fällt eine Gebühr von <?=$gebuer?>€ an!</b>
                 <thead align="left">
                 <tr>
                     <th data-sortable="true">Produkt</th>
                     <th data-sortable="true">Größe</th>
                     <th>Farbe</th>
-                    <th data-sortable="true">Preis</th>
+                    <th data-sortable="true">Kaution</th>
                     <th data-sortable="true">Status</th>
                     <th>Kalender</th>
                     <th>Buchen</th>
@@ -118,28 +128,32 @@ if (isset($_COOKIE['access_token'])) {
                 <tbody>
                 <? $stack = []?>
                 <?foreach ($decoded as $array):?>
-                    <?$item = json_decode(json_encode($array), true)?>
-                    <?if (!in_array($item['id'], $stack)): ?>
-                        <? array_push($stack, $item['id'])?>
-                        <? $name = $item['hersteller'] . " " . $item['produktlinie'] . " " . $item['bezeichnung']?>
-                            <tr class="<?=$item['hersteller']?>">
-                                <td><?= $name?></td>
-                                <td><?=$item['groesse']?></td>
-                                <td> <?=$item['farbe']?></td>
-                                <td><?=$item['vkpreis']?> €</td>
-                                <td style="text-align: center"><? if (in_array($item['id'], $reserved)): ?>
-                                        <i class="fas fa-times-circle belegt" title="belegt"></i>
-                                    <? else:?>
-                                        <i class="fas fa-check-circle verfuegbar" title="verfügbar"></i>
-                                    <?endif;?>
-                                </td>
-                                <td><button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' id='btnKalender' data-bs-target='#exampleModal' onclick="getCalendar(<?=$item["id"]?>, '<?=$name?> <?=$item['groesse']?> <?=$item['farbe']?>')"><i class="fas fa-calendar-alt"></i> Kalender anzeigen</button></td>
+                    <?$decoded = json_decode(json_encode($array), true)?>
+                    <?if (is_array($decoded)):?>
+                        <?foreach ($decoded as $item):?>
+                            <?if (!in_array($item['id'], $stack)): ?>
+                                <? array_push($stack, $item['id'])?>
+                                <? $name = $item['hersteller'] . " " . $item['produktlinie'] . " " . $item['bezeichnung']?>
+                                    <tr class="<?=$item['hersteller']?>">
+                                        <td><?= $name?></td>
+                                        <td><?=$item['groesse']?></td>
+                                        <td> <?=$item['farbe']?></td>
+                                        <td><?=$item['vkpreis'] * $multiplikator?> €</td>
+                                        <td style="text-align: center"><? if (in_array($item['id'], $reserved)): ?>
+                                                <i class="fas fa-times-circle belegt" title="belegt"></i>
+                                            <? else:?>
+                                                <i class="fas fa-check-circle verfuegbar" title="verfügbar"></i>
+                                            <?endif;?>
+                                        </td>
+                                        <td><button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' id='btnKalender' data-bs-target='#exampleModal' onclick="getCalendar(<?=$item["id"]?>, '<?=$name?> <?=$item['groesse']?> <?=$item['farbe']?>')"><i class="fas fa-calendar-alt"></i> Kalender anzeigen</button></td>
 
-                                <td>
-                                    <button type='button' class='btn btn-outline-success' id='btnBuchen' onclick="bookProduct(<?=$item["id"]?>, '<?=$item["hersteller"]?>', '<?=$item["produktlinie"]?>', '<?=$item["bezeichnung"]?>', '<?=$item["groesse"]?>', '<?=$item["farbe"]?>', '<?=$item["vkpreis"]?>' )"><i class="fas fa-parachute-box"></i> Produkt buchen <i class="fas fa-arrow-right"></i></button>
-                                </td>
-                            </tr>
-                    <?endif;?>
+                                        <td>
+                                            <button type='button' class='btn btn-outline-success' id='btnBuchen' onclick="bookProduct(<?=$item["id"]?>, '<?=$item["hersteller"]?>', '<?=$item["produktlinie"]?>', '<?=$item["bezeichnung"]?>', '<?=$item["groesse"]?>', '<?=$item["farbe"]?>', '<?=$item["vkpreis"] * $multiplikator?>', '<?=$gebuer?>' )"><i class="fas fa-parachute-box"></i> Produkt buchen <i class="fas fa-arrow-right"></i></button>
+                                        </td>
+                                    </tr>
+                            <?endif;?>
+                        <? endforeach;?>
+                    <? endif;?>
                 <? endforeach;?>
                 </tbody>
             </table>
@@ -203,7 +217,7 @@ if (isset($_COOKIE['access_token'])) {
         });
     }
 
-    function bookProduct (id, hersteller, linie, bezeichnung, groesse, farbe, preis){
+    function bookProduct (id, hersteller, linie, bezeichnung, groesse, farbe, kaution, gebuehr){
 
         document.getElementById('liste').style.display = "none";
         document.getElementById('buchungsseite').style.display = "block";
@@ -213,7 +227,7 @@ if (isset($_COOKIE['access_token'])) {
             type: 'GET',
             success: function (data){
                 $('#buchungs_div').html(data);
-                start(hersteller, linie, bezeichnung, groesse, farbe, preis);
+                start(hersteller, linie, bezeichnung, groesse, farbe, kaution, gebuehr);
             }
         });
     }

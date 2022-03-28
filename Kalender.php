@@ -513,16 +513,13 @@ foreach ($decoded as $item) {
 <script>
 
 
-    $(document).ready(function() {
-        datumList();
-        b();
-        c(month, year, 0);
-    });
     function start (){
         datumList();
         b();
         c(month, year, 0);
+        alert("hier");
     }
+
 
 
     //Aus Übergabedaten das von und bis herauslesen
