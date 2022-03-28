@@ -1,7 +1,9 @@
 <?php
+include "requestLocation.php";
+if (isset($_COOKIE['access_token'])) {
 $id = $_GET["id"];
 $curl = curl_init();
-$url = 'https://localhost/studpro/public/api/datum/' . $id;
+$url = $request_url . 'api/datum/' . $id;
 
 $data = array('email' => 'test@test.de','passwort' => '12345678');
 $header = array('Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5kZSJ9.cw-CjwC7Xmh5RAKG-b9f8Jds8qok7QsH0Kr3w4ssv_I',
@@ -33,21 +35,14 @@ foreach ($decoded as $item) {
 }
 
 
-/*$curl = curl_init();
-$url = 'https://localhost/studpro/public/api/view/179';
-/**
- *
- *
- *
- *              Hier UNBEDINGT noch den Kunden eintragen !!!!!
- *
- *
- *
- */
-/*
-$data = array('email' => 'test@test.de','passwort' => '12345678');
-$header = array('Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5kZSJ9.cw-CjwC7Xmh5RAKG-b9f8Jds8qok7QsH0Kr3w4ssv_I',
-    'Cookie: ci_session=bv6gn8dq9526urrf5282j0shp8jktjos');
+$curl = curl_init();
+
+$kundenid = $_COOKIE['id'];
+
+
+$url = $request_url . 'api/view/' . $kundenid;
+$access_token = 'Authorization: Bearer ' . $_COOKIE['access_token'];
+$header = array($access_token);
 
 curl_setopt($curl,CURLOPT_URL,$url);
 //curl_setopt($curl,CURLOPT_POST,$url);
@@ -66,9 +61,8 @@ if($e = curl_error($curl)){
 }
 curl_close($curl);
 $personendaten = json_decode(json_encode($datas), true);
-echo($personendaten[0]['vorname']);
 
-*/
+
 ?>
 
 <style>
@@ -196,6 +190,89 @@ echo($personendaten[0]['vorname']);
         </div>
     </div>
 
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="h5">Lieferdaten</div>
+                <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label class="btn btn-primary" id="lieferungsbtn" onclick="lieferung();">
+                        <input type="radio" name="options"> Lieferung
+                    </label>
+                    <label class="btn btn-outline-primary" id="abholungsbtn" onclick="abholung();">
+                        <input type="radio" name="options"> Abholung
+                    </label>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="lieferadresse">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input type="text" class="form-control " disabled="" id="vorname" name="vorname" placeholder="" value="<?=$personendaten[0]['vorname']?>">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control " disabled="" id="name" name="name" placeholder="" value="<?=$personendaten[0]['name']?>">
+                        </div>
+                    </div>
+                    <div class="row mb-3 mt-3">
+                        <div class="col-9">
+                            <input type="text" class="form-control " disabled="" id="lieferstrasse" name="lieferstrasse" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['strasse'] : $personendaten[0]['strasse']; ?>">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control " disabled="" id="lieferhausnummer" name="lieferhausnummer" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['hausnummer'] : $personendaten[0]['hausnummer']; ?>">
+                        </div>
+                    </div>
+                    <div class="row mb-3" id="adresszusatzDiv">
+                        <div class="col-12">
+                            <input type="text" class="form-control " disabled="" id="lieferadresszusatz" name="lieferadresszusatz" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['adresszusatz'] : $personendaten[0]['adresszusatz']; ?>">
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-2">
+                            <input type="text" class="form-control " disabled="" id="lieferland" name="lieferland" placeholder="DE" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['land'] : $personendaten[0]['land']; ?>">
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control " disabled="" id="lieferpostleitzahl" name="lieferpostleitzahl" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['plz'] : $personendaten[0]['plz']; ?>">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control " disabled="" id="lieferort" name="lieferort" placeholder="" value="<?php echo (sizeof($personendaten) == 2) ? $personendaten[1]['ort'] : $personendaten[0]['ort']; ?>">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="abholadresse" style="display: none">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <input type="text" class="form-control " disabled="" id="abholschule" name="vorname" placeholder="" value="Moselglider GdbR">
+                        </div>
+                    </div>
+                    <div class="row mb-3 mt-3">
+                        <div class="col-9">
+                            <input type="text" class="form-control " disabled="" id="abholstrasse" name="abholstrasse" placeholder="" value="Im Handwerkerhof">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control " disabled="" id="abholhausnummer" name="abholhausnummer" placeholder="" value="7 - 9">
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div class="col-2">
+                            <input type="text" class="form-control " disabled="" id="abholland" name="abholland" placeholder="DE" value="DE">
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control " disabled="" id="abholpostleitzahl" name="abholpostleitzahl" placeholder="" value="54338">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control " disabled="" id="abholort" name="abholort" placeholder="" value="Schweich">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="mt-3 float-right">
         <button class="btn btn-primary" onclick="buchungAbbrechen()"><i class="fas fa-times-circle"></i> Buchung abbrechen</i></button>
         <button class="btn btn-success ml-3" onclick="checkDates(<?=$id?>)"><i class="fas fa-parachute-box"></i> Produkt verbindlich buchen <i class="fa fa-check" aria-hidden="true"></i></button>
@@ -236,10 +313,9 @@ echo($personendaten[0]['vorname']);
         name = hersteller + " " + linie + " " + bezeichnung + " " + groesse + " " + farbe;
     }
 
+    if (document.getElementById("lieferadresszusatz").value === '') document.getElementById("adresszusatzDiv").style.display = "none";
 
     function getCalendarOnBooking(id){
-
-
         document.getElementById("kalenderBuchungTitel").innerHTML = name;
 
         $.ajax({
@@ -320,4 +396,23 @@ echo($personendaten[0]['vorname']);
         document.getElementById("liste").style.display = "block";
     }
 
+    function lieferung(){
+        document.getElementById("lieferungsbtn").classList.replace('btn-outline-primary', 'btn-primary');
+        document.getElementById("abholungsbtn").classList.replace('btn-primary', 'btn-outline-primary');
+        document.getElementById("lieferadresse").style.display = "block";
+        document.getElementById("abholadresse").style.display = "none";
+
+    }
+    function abholung(){
+        document.getElementById("abholungsbtn").classList.replace('btn-outline-primary', 'btn-primary');
+        document.getElementById("lieferungsbtn").classList.replace('btn-primary', 'btn-outline-primary');
+        document.getElementById("lieferadresse").style.display = "none";
+        document.getElementById("abholadresse").style.display = "block";
+    }
+
 </script>
+    <?php
+}
+else{
+    echo "Bitte melden Sie sich an!";
+}

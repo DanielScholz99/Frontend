@@ -62,6 +62,23 @@
 
 
 
+<div class="row">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="adresseDropdown">Lieferadresse:</label>
+                            </div>
+                            <select class="custom-select" id="adresseDropdown" onchange="andereAdresse()">
+                                <option disabled selected hidden>Bitte wählen Sie eine Lieferadresse</option>
+                                <?php foreach ($personendaten as $adresse):?>
+                                    <option><?=$adresse['strasse']?> <?=$adresse['hausnummer']?><?php echo ($adresse['adresszusatz'] === '') ? '' : ", " . $adresse['adresszusatz']; ?>, <?=$adresse['land']?>-<?=$adresse['plz']?> <?=$adresse['ort']?></option>
+                                <?php endforeach;?>
+                                <option>abweichende Lieferadresse</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
 
 function andereAdresse(){
         if (document.getElementById("adresseDropdown").value === "abweichende Lieferadresse"){

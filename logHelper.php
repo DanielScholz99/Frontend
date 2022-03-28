@@ -1,8 +1,9 @@
 
 <?php
+include "requestLocation.php";
 $curl = curl_init();
 
-$url = 'https://localhost/mysite-project/public/api/login';
+$url = $request_url . 'api/login';
 
 $data = array(
     'email' => $_POST['email'],
@@ -27,7 +28,7 @@ if($e = curl_error($curl)){
 
         } else {
             if ($key === "access_token"){
-                setcookie("access_token", $value);
+                setcookie("access_token", $value, time()+3600);
             }
             if ($key === "user"){
                 foreach ($value as $key2 => $value2){

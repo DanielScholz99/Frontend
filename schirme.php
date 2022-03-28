@@ -38,47 +38,49 @@
 </head>
 <?php
 
+include "requestLocation.php";
 
-$curl = curl_init();
+if (isset($_COOKIE['access_token'])) {
 
-$url = 'https://localhost/studpro/public/api/produktlinie';
+    $curl = curl_init();
 
-$data = array('email' => 'test@test.de','passwort' => '12345678');
-$header = array('Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5kZSJ9.cw-CjwC7Xmh5RAKG-b9f8Jds8qok7QsH0Kr3w4ssv_I',
-    'Cookie: ci_session=bv6gn8dq9526urrf5282j0shp8jktjos');
+    $url = $request_url . 'api/produktlinie';
 
-curl_setopt($curl,CURLOPT_URL,$url);
+    $access_token = 'Authorization: Bearer ' . $_COOKIE['access_token'];
+    $header = array($access_token);
+
+    curl_setopt($curl, CURLOPT_URL, $url);
 //curl_setopt($curl,CURLOPT_POST,$url);
 //curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
-curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
-curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 
-$response = curl_exec($curl);
+    $response = curl_exec($curl);
 
-if($e = curl_error($curl)){
-    echo $e;
-}else{
-    $decoded = json_decode($response);
-}
-curl_close($curl);
-
-$reserved = [];
-
-foreach ($decoded as $item) {
-    $array = json_decode(json_encode($item), true);
-    if ($array['datumvon']){
-        $today = date('Y-m-d');
-        $begin = date('Y-m-d', strtotime($array['datumvon']));
-        $end = date('Y-m-d', strtotime($array['datumbis']));
-
-        if (($today >= $begin) && ($today <= $end)){
-            array_push($reserved, $array['id']);
-        }
-
+    if ($e = curl_error($curl)) {
+        echo $e;
+    } else {
+        $decoded = json_decode($response);
     }
-}
+    curl_close($curl);
+
+    $reserved = [];
+
+    foreach ($decoded as $item) {
+        $array = json_decode(json_encode($item), true);
+        if ($array['datumvon']) {
+            $today = date('Y-m-d');
+            $begin = date('Y-m-d', strtotime($array['datumvon']));
+            $end = date('Y-m-d', strtotime($array['datumbis']));
+
+            if (($today >= $begin) && ($today <= $end)) {
+                array_push($reserved, $array['id']);
+            }
+
+        }
+    }
 ?>
 
 <div class="container" id="liste">
@@ -91,7 +93,6 @@ foreach ($decoded as $item) {
 
             <table class="table table-responsive table-striped table-hover d-table"
                    id="tableprodukte"
-                   data-show-columns="true"
                    showColumnsToggleAll="true"
                    data-toggle="table"
                    data-search="true"
@@ -218,3 +219,8 @@ foreach ($decoded as $item) {
     }
 
 </script>
+<?php
+}
+else{
+    echo "Bitte melden Sie sich an!";
+}

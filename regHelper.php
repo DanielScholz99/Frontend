@@ -1,7 +1,8 @@
 <?php
+include "requestLocation.php";
 $curl = curl_init();
 
-$url = 'https://localhost/mysite-project/public/api/register';
+$url = $request_url . 'api/register';
 
 if ($_POST["land1"]=="Deutschland"){
     $nationalitaet = "DE";

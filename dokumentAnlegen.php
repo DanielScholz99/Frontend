@@ -1,43 +1,21 @@
 <?php
+include "requestLocation.php";
+if (isset($_COOKIE['access_token'])) {
 $produkteid = $_GET["produktid"];
 $datumvon = $_GET["datumvon"];
 $datumbis = $_GET["datumbis"];
-//$kundenid = $_COOKIE["kundenid"];
-/**
- *
- *
- * Kundenid aus dem Coockie holen!!
- *
- *
- */
+$kundenid = $_COOKIE["id"];
+
 
 $curl = curl_init();
-$kundenid = 179;
 
-
-$header = array('Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5kZSJ9.cw-CjwC7Xmh5RAKG-b9f8Jds8qok7QsH0Kr3w4ssv_I',
-    'Cookie: ci_session=bv6gn8dq9526urrf5282j0shp8jktjos');
-
-
-/*$url = 'https://localhost/studpro/public/api/document';
-
-
-
-$data = array('email' => 'test@test.de','passwort' => '12345678');
-
-
-curl_setopt($curl,CURLOPT_URL,$url);
-curl_setopt($curl,CURLOPT_POST,$url);
-curl_setopt($curl,CURLOPT_POSTFIELDS,$dokumentendaten);
-curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
-curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);*/
+$access_token = 'Authorization: Bearer ' . $_COOKIE['access_token'];
+$header = array($access_token);
 
 
 $dokumentendaten = array('personenid' => $kundenid, 'produkteid' => $produkteid, 'datumvon' => $datumvon, 'datumbis' => $datumbis);
 curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://localhost/studpro/public/api/document',
+    CURLOPT_URL => $request_url . 'api/document',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -72,3 +50,8 @@ curl_close($curl);
         location.reload();
     }
 </script>
+    <?php
+}
+else{
+    echo "Bitte melden Sie sich an!";
+}
