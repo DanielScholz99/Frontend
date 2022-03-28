@@ -37,7 +37,7 @@ if($e = curl_error($curl)){
                     }
                 }
             }
-            echo '<script> alert("Login erfolgreich, leite weiter."); window.location.href = "schirme.php";</script>';
+            echo '<script> alert("Login erfolgreich, leite weiter."); window.opener.location.reload(); window.close() ;</script>';
         }
     }
 

@@ -279,14 +279,14 @@
 
         <!-- Login Form -->
         <form id="loginForm" onsubmit="getLogin($('#email').val(),$('#password').val());return false">
-            <input type="text" id="email" class="fadeIn second" name="email" placeholder="login">
-            <input type="password" id="password" class="fadeIn third" name="login" placeholder="password">
+            <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email">
+            <input type="password" id="password" class="fadeIn third" name="login" placeholder="Passwort">
             <input type="submit" id="login" class="fadeIn fourth" value="Log In">
         </form>
 
         <!-- Remind Passowrd -->
         <div id="formFooter">
-            <a class="underlineHover" href="register.php">No Account yet? Click here.</a>
+            <a class="underlineHover" href="register.php">Noch kein Account? Jetzt registrieren.</a>
         </div>
 
     </div>
@@ -313,8 +313,7 @@
                 success: function(response) {
                     $('#result').html(response);
                 }
-            });
-
-
-        }
+        });
+        window.opener.location.reload();
+    }
 </script>

@@ -278,7 +278,7 @@
 </style>
 </head>
     <body>
-    <div class="wrapper fadeInDown" id="wholeLogin">
+    <div class="wrapper fadeInDown" id="wholeRegister">
         <div id="formContent">
             <!-- Icon -->
             <div class="fadeIn first">
@@ -286,7 +286,7 @@
             </div>
             <br>
             <!-- Login Form -->
-            <form id="registerForm" onsubmit="getRegister($('#name').val(),$('#vorname').val(),$('#email').val(),$('#password').val(),$('#tel').val(),
+            <form id="registerForm" onsubmit="getRegister($('#name').val(),$('#vorname').val(),$('#email').val(),$('#password').val(),$('#confPassword').val(),$('#tel').val(),
             $('#mobil').val(),$('#nationalitaet').val(),$('#notfallkontakt').val(),$('#adresszusatz1').val(),$('#strasse1').val(),$('#hausnummer1').val(),
             $('#plz1').val(),$('#ort1').val(),$('#land1').val(),$('#adresszusatz2').val(),$('#strasse2').val(),$('#hausnummer2').val(),
             $('#plz2').val(),$('#ort2').val(),$('#land2').val(),$('#bank').val(),$('#iban').val(),$('#bic').val(),$('#mandatsref').val()
@@ -298,8 +298,8 @@
                     <input type="text" id="name" class="fadeIn second" name="name" placeholder="Name*" required>
                     <input type="text" id="vorname" class="fadeIn second" name="vorname" placeholder="Vorname*" required>
                     <input type="text" id="email" class="fadeIn third" name="email" placeholder="Email-Adresse*" required>
-                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password*" required>
-                    <input type="password" id="confPassword" class="fadeIn third" name="confPassword" placeholder="Confirm Password*" required>
+                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="Passwort*" required>
+                    <input type="password" id="confPassword" class="fadeIn third" name="confPassword" placeholder="Confirm Passwort*" required>
                     <input type="text" id="tel" class="fadeIn third" name="tel" placeholder="Telefonnr." >
                     <input type="text" id="mobil" class="fadeIn third" name="mobil" placeholder="Mobiltel.">
                     <input type="text" id="nationalitaet" class="fadeIn third" name="nationalitaet" placeholder="Nationalität">
@@ -367,30 +367,28 @@
 
     </div>
     </body>
-<form id="registerForm" onsubmit="getRegister($('#name').val(),$('#vorname').val(),$('#email').val(),$('#password').val(),$('#tel').val(),
-            $('#mobil').val(),$('#nationalitaet').val(),$('#notfallkontakt').val(),$('#adresszusatz1').val(),$('#strasse1').val(),$('#hausnummer1').val(),
-            $('#plz1').val(),$('#ort1').val(),$('#land1').val(),$('#adresszusatz2').val(),$('#strasse2').val(),$('#hausnummer2').val(),
-            $('#plz2').val(),$('#ort2').val(),$('#land2').val(),$('#bank').val(),$('#iban').val(),$('#bic').val(),$('#mandatsref').val()
-            ,$('#firma').val(),$('#abteilung').val(),$('#strasseF').val());return false">
 </html>
 <script>
-    function getRegister(name, vorname, email, password, tel, mob, nationalitaet, notfallkontakt, adresszusatz1, strasse1, hausnummer1, plz1, ort1, land1,
+    function getRegister(name, vorname, email, password, confPassword, tel, mob, nationalitaet, notfallkontakt, adresszusatz1, strasse1, hausnummer1, plz1, ort1, land1,
     adresszusatz2, strasse2, hausnummer2, plz2, ort2, land2, bank, iban, bic, mandatsref, firma, abteilung, strasseF){
 
-        document.getElementById('wholeLogin').style.display = "none";
+        document.getElementById('wholeRegister').style.display = "none";
         document.getElementById('result').style.display = "block";
+
 
         $.ajax({
             type: 'POST',
             url: 'regHelper.php',
-            data: { name: name, vorname:vorname, email: email, password: password, tel: tel, mob: mob, nationalitaet: nationalitaet,
-                notfallkontakt: notfallkontakt, adresszusatz1: adresszusatz1, strasse1: strasse1, hausnummer1: hausnummer1, plz1: plz1, ort1: ort1,
-                land1: land1, adresszusatz2: adresszusatz2, strasse2: strasse2, hausnummer2: hausnummer2, plz2: plz2, ort2: ort2,
-                land2: land2, bank: bank, iban: iban, bic: bic, mandatsref: mandatsref, firma: firma, abteilung: abteilung, strasseF: strasseF},
+            data: { name: name, vorname:vorname, email: email, password: password, confPassword: confPassword, tel: tel, mob: mob,
+                nationalitaet: nationalitaet, notfallkontakt: notfallkontakt, adresszusatz1: adresszusatz1, strasse1: strasse1,
+                hausnummer1: hausnummer1, plz1: plz1, ort1: ort1, land1: land1, adresszusatz2: adresszusatz2, strasse2: strasse2,
+                hausnummer2: hausnummer2, plz2: plz2, ort2: ort2, land2: land2, bank: bank, iban: iban, bic: bic, mandatsref:
+                mandatsref, firma: firma, abteilung: abteilung, strasseF: strasseF},
             success: function(response) {
                 $('#result').html(response);
             }
         });
+        window.opener.location.reload();
     }
 </script>
 
