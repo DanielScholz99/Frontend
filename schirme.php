@@ -139,7 +139,7 @@ if (isset($_COOKIE['access_token'])) {
                                             <td><?= $name?></td>
                                             <td><?=$item['groesse']?></td>
                                             <td> <?=$item['farbe']?></td>
-                                            <td><?=$item['vkpreis'] * $kaution?> €</td>
+                                            <td><?=$item['vkpreis']?> €</td>
                                             <td style="text-align: center"><? if (in_array($item['id'], $reserved)): ?>
                                                     <i class="fas fa-times-circle belegt" title="belegt"></i>
                                                 <? else:?>
