@@ -119,7 +119,7 @@ if (isset($_COOKIE['access_token'])) {
                         <th data-sortable="true">Produkt</th>
                         <th data-sortable="true">Größe</th>
                         <th>Farbe</th>
-                        <th data-sortable="true">Kaution</th>
+                        <th data-sortable="true">Kaufpreis</th>
                         <th data-sortable="true">Status</th>
                         <th>Kalender</th>
                         <th>Buchen</th>
