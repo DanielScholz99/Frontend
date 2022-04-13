@@ -43,6 +43,12 @@
             line-height: 69px;
         }
 
+        .year_calendendar:hover{
+            cursor: pointer!important;
+            border-color: #007bff!important;
+            border-radius: 10px!important;
+        }
+
         .calendar_weekdays_year div, .calendar_content_year div {
             width: 14.28571%;
             height: 25px;
@@ -360,158 +366,6 @@ foreach ($decoded as $item) {
                     </div>
 
 </body>
-
-<style>
-
-    .calendar {
-        /*float: left;*/
-        margin: auto;
-        margin-top: 1em;
-        min-width: 320px;
-        font-family: 'Lato', sans-serif;
-        font-weight: 400;
-    }
-
-
-    .calendar, .calendar_weekdays,
-    .calendar_content {
-        max-width: 785px;
-    }
-
-    .calendar_weekdays div {
-        color: #aaa;
-        font-weight: lighter;
-        display:inline-block;
-        vertical-align:top;
-    }
-    .calendar_content, .calendar_weekdays, .calendar_header {
-        position: relative;
-    }
-    .calendar_content:after, .calendar_weekdays:after, .calendar_header:after {
-        content: ' ';
-        display: table;
-        clear: both;
-    }
-    .calendar_weekdays div, .calendar_content div {
-        width: 14.28571%;
-        height: 68px;
-        overflow: hidden;
-        text-align: center;
-        background-color: transparent;
-    }
-
-    .month_line{
-        line-height: 69px;
-    }
-
-    .year_calendendar:hover{
-        cursor: pointer!important;
-        border-color: #007bff!important;
-        border-radius: 10px!important;
-    }
-
-    .calendar_weekdays_year div, .calendar_content_year div {
-        width: 14.28571%;
-        height: 25px;
-        overflow: hidden;
-        text-align: center;
-        background-color: transparent;
-        font-size: smaller !important;
-    }
-
-    .calendar_content .today {
-        color: #232f3e;
-        background-color: #dae1ea;
-    }
-    .calendar_content div {
-        float: left;
-        margin-left: -1px;
-        margin-top: -1px;
-        border: 1px solid #d5d5d5;
-    }
-
-    .calendar_content div.today{
-        font-weight: bold;
-        font-size: 20px;
-        color: #232f3e;
-    }
-
-    .calendar_header {
-        width: 100%;
-        text-align: center;
-    }
-
-    .calendar_header h2 {
-        float:left;
-        width:70%;
-        margin-top: 10px;
-        padding: 0 10px;
-        font-family: 'Lato', sans-serif;
-        font-weight: 300;
-        font-size: 1.5em;
-        color: #232f3e;
-        line-height: 1.7;
-    }
-
-    .calendar_header_year h2{
-        float:left;
-        width: 100%;
-        margin-top: 10px;
-        padding: 0 10px;
-        font-family: 'Lato', sans-serif;
-        font-weight: 300;
-        font-size: 1.5em;
-        color: #232f3e;
-        line-height: 1.7;
-    }
-
-    .switch-month {
-        background-color: white;
-        color: #232f3e;
-        padding: 0;
-        outline: none;
-        border: none;
-        line-height: 52px;
-        height: 55px;
-        float: left;
-        width:15%;
-        transition: color .2s;
-        border-radius: 10%;
-    }
-
-    .switch-month:hover {
-        color: #007bff;
-        background: #d3d3d357;
-    }
-    .switch-month:active {
-        background-color: rgba(113, 113, 125, .4);
-    }
-
-    div.tagBelegt{
-        background-color: #ff000070;
-        border-color: darkred;
-    }
-
-    div.pastBelegt{
-        background-color: lightyellow;
-    }
-
-    .calendar_content div.past-date {
-        cursor: initial;
-        color: #d5d5d5;
-    }
-
-    .calendar-year{
-        max-width: 1000px;
-    }
-
-    .calendar_header_year_ueberschrift:hover{
-        cursor: pointer;
-        color: #007bff;
-    }
-
-
-</style>
 
 <script>
 

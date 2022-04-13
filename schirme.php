@@ -68,7 +68,7 @@ if (isset($_COOKIE['access_token'])) {
 
     $reserved = [];
     $gebuer = 0;
-    $multiplikator = 0;
+    $kaution = 0;
     foreach ($decoded as $item) {
         $array = json_decode(json_encode($item), true);
         if (is_array($array)) {
@@ -90,7 +90,7 @@ if (isset($_COOKIE['access_token'])) {
 
     }
     $gebuer = json_decode(json_encode($decoded), true)['leihgebuehren'];
-    $multiplikator = json_decode(json_encode($decoded), true)['kaution'];
+    $kaution = json_decode(json_encode($decoded), true)['kaution'];
 ?>
 
 <div id="seitendiv">
@@ -113,7 +113,7 @@ if (isset($_COOKIE['access_token'])) {
                        data-toolbar="#toolbar"
                        data-footer-style="footerStyle"
                 >
-                    <b>Für jede Buchung fällt eine Gebühr von <?=$gebuer?>€ an!</b>
+                    <b>Für jede Buchung fällt eine Gebühr von <?=$gebuer?>€ (inkl. MwSt), eine Kaution in Höhe von <?=$kaution?>€ sowie Versandkosten bei einer Lieferung an!</b>
                     <thead align="left">
                     <tr>
                         <th data-sortable="true">Produkt</th>
@@ -139,7 +139,7 @@ if (isset($_COOKIE['access_token'])) {
                                             <td><?= $name?></td>
                                             <td><?=$item['groesse']?></td>
                                             <td> <?=$item['farbe']?></td>
-                                            <td><?=$item['vkpreis'] * $multiplikator?> €</td>
+                                            <td><?=$item['vkpreis'] * $kaution?> €</td>
                                             <td style="text-align: center"><? if (in_array($item['id'], $reserved)): ?>
                                                     <i class="fas fa-times-circle belegt" title="belegt"></i>
                                                 <? else:?>
@@ -149,7 +149,7 @@ if (isset($_COOKIE['access_token'])) {
                                             <td><button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' id='btnKalender' data-bs-target='#exampleModal' onclick="getCalendar(<?=$item["id"]?>, '<?=$name?> <?=$item['groesse']?> <?=$item['farbe']?>')"><i class="fas fa-calendar-alt"></i> Kalender anzeigen</button></td>
 
                                             <td>
-                                                <button type='button' class='btn btn-outline-success' id='btnBuchen' onclick="bookProduct(<?=$item["id"]?>, '<?=$item["hersteller"]?>', '<?=$item["produktlinie"]?>', '<?=$item["bezeichnung"]?>', '<?=$item["groesse"]?>', '<?=$item["farbe"]?>', '<?=$item["vkpreis"] * $multiplikator?>', '<?=$gebuer?>' )"><i class="fas fa-parachute-box"></i> Produkt buchen <i class="fas fa-arrow-right"></i></button>
+                                                <button type='button' class='btn btn-outline-success' id='btnBuchen' onclick="bookProduct(<?=$item["id"]?>, '<?=$item["hersteller"]?>', '<?=$item["produktlinie"]?>', '<?=$item["bezeichnung"]?>', '<?=$item["groesse"]?>', '<?=$item["farbe"]?>', '<?=$item["vkpreis"] * $kaution?>', '<?=$gebuer?>' )"><i class="fas fa-parachute-box"></i> Produkt buchen <i class="fas fa-arrow-right"></i></button>
                                             </td>
                                         </tr>
                                 <?endif;?>
