@@ -10,7 +10,8 @@ $data = array(
     'passwort' => $_POST['password']
 );
 curl_setopt($curl,CURLOPT_URL,$url);
-curl_setopt($curl,CURLOPT_POST,$url);
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl,CURLOPT_CUSTOMREQUEST,'POST');
 curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
 curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -52,6 +53,6 @@ if($e = curl_error($curl)){
     */
 }
 curl_close($curl);
-//echo $_COOKIE["id"];
-//echo $_COOKIE["access_token"]
+#echo $_COOKIE["id"];
+#echo $_COOKIE["access_token"]
 ?>

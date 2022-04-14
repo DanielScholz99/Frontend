@@ -1,3 +1,3 @@
 <?php
 
-$request_url = "https://localhost/studpro/public/";
+$request_url = "https://test.paraworks.de/";
